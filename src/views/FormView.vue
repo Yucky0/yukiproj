@@ -2,37 +2,21 @@
   <main class="form">
     <h2>Class shopping cart</h2>
     <p>
-      Here you can make a list of classes your are planning on taking.
+      Here you can make a list of classes you are planning on taking.
     </p>
 
     <form @submit.prevent="createTodo" class="create-todo">
       <label for="todo">Class:</label>
-      <input type="text" id="todo" name="todo" v-model="newTodo" />
+      <select v-model="selectedClass">
+        <option v-for="course in courseList" :key="course">{{ course }}</option>
+      </select>
       <button type="submit">Save</button>
     </form>
 
     <ul>
-      <!--
-        v-for requires a unique key for every element so that it can efficiently keep track
-        of each list item. it is possible for the user to type the same todo more than once,
-        so the todo itself isn't necessarily unique. the index on its own is of course unique,
-        it represents each unique place in the array. there are unfortunately edge case issues
-        with using the index alone that we don't need to get into, so we combine the todo and
-        the index into a unique key that will work in all situations
-      -->
-      <li v-for="(todo, index) in todos" :key="todo + index">
+      <li v-for="(todo, index) in todos" :key="index">
         {{ todo }}
         <button @click="deleteTodo(index)">Delete</button>
-      </li>
-
-      <!--
-        it is a good user experience practice to provide feedback when in an "emtpy state",
-        in this case, where there are no todos to show yet. this informs the user of
-        the current status of the system (working), and doesn't make them wonder if something
-        has gone wrong
-       -->
-      <li v-if="todos.length === 0">
-        <p>No Todos Yet, go ahead and create one!</p>
       </li>
     </ul>
   </main>
@@ -41,24 +25,18 @@
 <script setup>
 import { ref } from "vue";
 
-const newTodo = ref("");
+const selectedClass = ref(""); // Store the selected class
+const courseList = ref([
+  'CSE1010', 'CSE2050', 'CSE2102', 'MATH1030Q', 'MATH1060Q', 'MATH1151Q', // Add more classes
+]);
+const todos = ref([]); // Store the saved classes
 
-const todos = ref([]);
-
-// function to run when the create todo form is submitted
 function createTodo() {
-  // sanitize the input by removing the whitespace from the beginning and end of newTodo.value
-  const todoToAdd = newTodo.value.trim();
-
-  // if the sanitized input is not an empty string (i.e., an actual todo), add it to the list and reset the form
-  if (todoToAdd !== "") {
-    todos.value.push(todoToAdd);
-    newTodo.value = "";
+  if (selectedClass.value && !todos.value.includes(selectedClass.value)) {
+    todos.value.push(selectedClass.value);
   }
 }
 
-// when a todo's delete button is clicked, the index of that todo is passed to this function
-// Array.splice takes an index in the array and a number of items to delete after that
 function deleteTodo(index) {
   todos.value.splice(index, 1);
 }
@@ -105,3 +83,4 @@ function deleteTodo(index) {
   color: #202020;
 }
 </style>
+
