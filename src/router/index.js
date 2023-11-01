@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import FormView from "../views/FormView.vue";
 import FetchView from "../views/FetchView.vue";
+import NewView from "../views/DynamoDB.vue";
 
 const router = createRouter({
   // the history mode determines how vue router interacts with the url.
@@ -35,6 +36,11 @@ const router = createRouter({
       name: "fetch",
       component: FetchView,
     },
+    {
+      path: "/dynamodb",
+      name: "dynamo",
+      component: NewView, 
+    }
   ],
 });
 
