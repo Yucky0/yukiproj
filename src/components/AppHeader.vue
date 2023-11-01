@@ -17,6 +17,9 @@
             -->
             <RouterLink :to="{ name: 'form' }">Student Schedule</RouterLink>
           </li>
+          <li>
+            <RouterLink to="/dynamodb">DynamoDB Tester</RouterLink>
+          </li>
         </ul>
       </nav>
     </div>
